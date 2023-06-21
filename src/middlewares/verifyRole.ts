@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 import { NextFunction, Response } from "express";
 import {
   CustomRequest,
   RequestParams,
-  RequestUser,
+  RequestUser
 } from "../types/extendedTypes";
 import httpStatusCode from "../utils/httpStatusCode";
 import logError from "../db/audit";
@@ -30,7 +31,7 @@ export const isAdmin = async (
       req_url: req.originalUrl,
       req_method: req.method,
       req_host: req.headers["host"],
-      user_id: req.user?.user_id,
+      user_id: req.user?.user_id
     });
 
     return res
@@ -50,12 +51,13 @@ export const isOrgAdmin = async (
     const existingUser = await User.query()
       .findById(user?.user_id!)
       .where({
-        "users.is_active": true,
+        "users.is_active": true
       })
       .joinRelated("role")
       .select("role.name as role_name");
 
-    // @ts-expect-error
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     if (existingUser?.role_name !== "Admin") {
       return res.sendStatus(httpStatusCode.UNAUTHORIZED);
     }
@@ -70,7 +72,7 @@ export const isOrgAdmin = async (
       req_url: req.originalUrl,
       req_method: req.method,
       req_host: req.headers["host"],
-      user_id: req.user?.user_id,
+      user_id: req.user?.user_id
     });
 
     return res
@@ -88,7 +90,7 @@ export const isOrgUser = async (
     const {
       body,
       user,
-      params,
+      params
     }: { body: { org_id: number }; user?: RequestUser; params: RequestParams } =
       req;
 
@@ -106,7 +108,7 @@ export const isOrgUser = async (
       req_url: req.originalUrl,
       req_method: req.method,
       req_host: req.headers["host"],
-      user_id: req.user?.user_id,
+      user_id: req.user?.user_id
     });
 
     return res

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 import { Response } from "express";
 import bcrypt from "bcryptjs";
 
@@ -15,7 +16,7 @@ export const createOrganisation = async (req: CustomRequest, res: Response) => {
     const { name, address, city, state, country } = body;
 
     const existingOrganisation = await Organisation.query().findOne({
-      name: name,
+      name: name
     });
 
     if (existingOrganisation) {
@@ -29,7 +30,7 @@ export const createOrganisation = async (req: CustomRequest, res: Response) => {
       address: address,
       city: city,
       state: state,
-      country: country,
+      country: country
     });
 
     return res.sendStatus(httpStatusCode.CREATED);
@@ -40,7 +41,7 @@ export const createOrganisation = async (req: CustomRequest, res: Response) => {
       req_url: req.originalUrl,
       req_method: req.method,
       req_host: req.headers["host"],
-      user_id: req.user?.user_id,
+      user_id: req.user?.user_id
     });
 
     return res
@@ -59,7 +60,7 @@ export const getOrganisations = async (req: CustomRequest, res: Response) => {
       sort_by = "created_at",
       sort_order = "asc",
       search,
-      search_field,
+      search_field
     } = query;
 
     const getAllOrgsQuery = Organisation.query().where({ is_active: true });
@@ -71,7 +72,7 @@ export const getOrganisations = async (req: CustomRequest, res: Response) => {
       search: search!,
       search_field: search_field!,
       sort_by: sort_by!,
-      sort_order: sort_order!,
+      sort_order: sort_order!
     });
 
     // Organisation[] | Page<Organisation | User> | User[]
@@ -91,13 +92,13 @@ export const getOrganisations = async (req: CustomRequest, res: Response) => {
 
       return res.status(httpStatusCode.SUCCESS).json({
         data: results,
-        total: total,
+        total: total
       });
     }
 
     return res.status(httpStatusCode.SUCCESS).json({
       data: organisations,
-      total: organisations.length,
+      total: organisations.length
     });
   } catch (error: any) {
     await logError({
@@ -106,7 +107,7 @@ export const getOrganisations = async (req: CustomRequest, res: Response) => {
       req_url: req.originalUrl,
       req_method: req.method,
       req_host: req.headers["host"],
-      user_id: req.user?.user_id,
+      user_id: req.user?.user_id
     });
 
     return res
@@ -122,7 +123,7 @@ export const getOrganisation = async (req: CustomRequest, res: Response) => {
     const organisation = await Organisation.query()
       .findById(params?.id!)
       .where({
-        is_active: true,
+        is_active: true
       });
 
     if (!organisation) {
@@ -137,7 +138,7 @@ export const getOrganisation = async (req: CustomRequest, res: Response) => {
       req_url: req.originalUrl,
       req_method: req.method,
       req_host: req.headers["host"],
-      user_id: req.user?.user_id,
+      user_id: req.user?.user_id
     });
 
     return res
@@ -153,7 +154,7 @@ export const deleteOrganisation = async (req: CustomRequest, res: Response) => {
     const organisation = await Organisation.query()
       .findById(params?.id!)
       .where({
-        is_active: true,
+        is_active: true
       });
 
     if (!organisation) {
@@ -161,7 +162,7 @@ export const deleteOrganisation = async (req: CustomRequest, res: Response) => {
     }
 
     await Organisation.query().findById(params?.id!).patch({
-      is_active: false,
+      is_active: false
     });
 
     return res.sendStatus(httpStatusCode.ACCEPTED);
@@ -172,7 +173,7 @@ export const deleteOrganisation = async (req: CustomRequest, res: Response) => {
       req_url: req.originalUrl,
       req_method: req.method,
       req_host: req.headers["host"],
-      user_id: req.user?.user_id,
+      user_id: req.user?.user_id
     });
 
     return res
@@ -188,7 +189,7 @@ export const updateOrganisation = async (req: CustomRequest, res: Response) => {
 
     if (body?.name) {
       const otherOrg = await Organisation.query().findOne({
-        name: body.name,
+        name: body.name
       });
 
       if (otherOrg) {
@@ -201,7 +202,7 @@ export const updateOrganisation = async (req: CustomRequest, res: Response) => {
     const organisation = await Organisation.query()
       .findById(params?.id!)
       .where({
-        is_active: true,
+        is_active: true
       });
 
     if (!organisation) {
@@ -218,7 +219,7 @@ export const updateOrganisation = async (req: CustomRequest, res: Response) => {
       req_url: req.originalUrl,
       req_method: req.method,
       req_host: req.headers["host"],
-      user_id: req.user?.user_id,
+      user_id: req.user?.user_id
     });
 
     return res
@@ -240,7 +241,7 @@ export const createOrgWithEmployee = async (
     const { firstName, lastName, email, password } = user;
 
     const existingOrganisation = await Organisation.query().findOne({
-      name: name,
+      name: name
     });
 
     if (existingOrganisation) {
@@ -258,11 +259,11 @@ export const createOrgWithEmployee = async (
         address: address,
         city: city,
         state: state,
-        country: country,
+        country: country
       });
 
       const existingUser = await User.query(trx).findOne({
-        email: email,
+        email: email
       });
 
       if (existingUser) {
@@ -278,7 +279,7 @@ export const createOrgWithEmployee = async (
         last_name: lastName,
         email: email,
         org_id: newOrganisation?.$id(),
-        password: hashedPassword,
+        password: hashedPassword
       });
 
       const { password: tempPassword, ...userData } = newUser;
@@ -289,8 +290,8 @@ export const createOrgWithEmployee = async (
       return res.status(httpStatusCode.CREATED).json({
         data: {
           organisation: newOrganisation,
-          user: userData,
-        },
+          user: userData
+        }
       });
     } catch (error: any) {
       // * ROLLBACKS TRANSATION IF ANY ERROR
@@ -302,7 +303,7 @@ export const createOrgWithEmployee = async (
         req_url: req.originalUrl,
         req_method: req.method,
         req_host: req.headers["host"],
-        user_id: req.user?.user_id,
+        user_id: req.user?.user_id
       });
 
       return res
@@ -316,7 +317,7 @@ export const createOrgWithEmployee = async (
       req_url: req.originalUrl,
       req_method: req.method,
       req_host: req.headers["host"],
-      user_id: req.user?.user_id,
+      user_id: req.user?.user_id
     });
 
     return res
@@ -346,7 +347,7 @@ export const getOrgsWitheEmployee = async (
       req_url: req.originalUrl,
       req_method: req.method,
       req_host: req.headers["host"],
-      user_id: req.user?.user_id,
+      user_id: req.user?.user_id
     });
 
     return res
@@ -362,7 +363,7 @@ export const getOrgWithEmployee = async (req: CustomRequest, res: Response) => {
     const organisation = await Organisation.query()
       .findById(params?.id!)
       .where({
-        is_active: true,
+        is_active: true
       })
       .withGraphFetched("user as employees")
       .modifyGraph("employees", (builder) => {
@@ -375,8 +376,8 @@ export const getOrgWithEmployee = async (req: CustomRequest, res: Response) => {
 
     return res.status(httpStatusCode.SUCCESS).json({
       data: {
-        organisation,
-      },
+        organisation
+      }
     });
   } catch (error: any) {
     await logError({
@@ -385,7 +386,7 @@ export const getOrgWithEmployee = async (req: CustomRequest, res: Response) => {
       req_url: req.originalUrl,
       req_method: req.method,
       req_host: req.headers["host"],
-      user_id: req.user?.user_id,
+      user_id: req.user?.user_id
     });
 
     return res

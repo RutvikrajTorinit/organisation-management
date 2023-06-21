@@ -4,7 +4,7 @@ import {
   getOrgUsers,
   getUser,
   getUsers,
-  updateUser,
+  updateUser
 } from "../controllers/usersController";
 import { updateUserBodyValidator } from "../validators/bodyValidator";
 

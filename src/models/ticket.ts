@@ -4,6 +4,7 @@ import Organisation from "./organisation";
 import Comment from "./comment";
 import Department from "./department";
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const knex = require("../../knex");
 
 Model.knex(knex);
@@ -46,8 +47,8 @@ class Ticket extends Model {
         org_id: { type: "integer" },
         user_id: { type: "integer" },
         dept_id: { type: "integer" },
-        status: { type: "integer" },
-      },
+        status: { type: "integer" }
+      }
     };
   }
 
@@ -58,33 +59,33 @@ class Ticket extends Model {
         modelClass: User,
         join: {
           from: "tickets.user_id",
-          to: "users.user_id",
-        },
+          to: "users.user_id"
+        }
       },
       organisation: {
         relation: Model.BelongsToOneRelation,
         modelClass: Organisation,
         join: {
           from: "tickets.org_id",
-          to: "organisations.org_id",
-        },
+          to: "organisations.org_id"
+        }
       },
       comment: {
         relation: Model.HasManyRelation,
         modelClass: Comment,
         join: {
           from: "tickets.ticket_id",
-          to: "comments.ticket_id",
-        },
+          to: "comments.ticket_id"
+        }
       },
       department: {
         relation: Model.BelongsToOneRelation,
         modelClass: Department,
         join: {
           from: "tickets.dept_id",
-          to: "departments.dept_id",
-        },
-      },
+          to: "departments.dept_id"
+        }
+      }
     };
   }
 }

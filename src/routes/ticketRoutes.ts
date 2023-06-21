@@ -4,12 +4,12 @@ import {
   changeTicketStatus,
   createTicket,
   getAllTickets,
-  getUserTickets,
+  getUserTickets
 } from "../controllers/ticketController";
 import { isOrgAdmin } from "../middlewares/verifyRole";
 import {
   changeTicketStatusBodyValidator,
-  createTicketBodyValidator,
+  createTicketBodyValidator
 } from "../validators/bodyValidator";
 
 const router = Router();

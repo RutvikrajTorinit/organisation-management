@@ -19,7 +19,7 @@ const logError = async (params: LogError) => {
       req_url: req_url,
       req_method: req_method,
       req_host: req_host,
-      user_id: user_id,
+      user_id: user_id
     });
   } catch (error: any) {
     logger.error(error?.message);

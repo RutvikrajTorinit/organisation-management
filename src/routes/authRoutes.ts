@@ -2,12 +2,12 @@ import { Router } from "express";
 import {
   login,
   register,
-  registerWithOrg,
+  registerWithOrg
 } from "../controllers/authController";
 import {
   loginBodyValidator,
   registerBodyValidator,
-  registerWithOrgBodyValidator,
+  registerWithOrgBodyValidator
 } from "../validators/bodyValidator";
 
 const router = Router();

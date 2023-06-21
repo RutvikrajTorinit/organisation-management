@@ -54,7 +54,7 @@ const validateToken = async (
       req_url: req.originalUrl,
       req_method: req.method,
       req_host: req.headers["host"],
-      user_id: req.user?.user_id,
+      user_id: req.user?.user_id
     });
 
     return res

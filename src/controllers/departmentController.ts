@@ -2,7 +2,7 @@ import { Response } from "express";
 import {
   CustomRequest,
   RequestParams,
-  RequestUser,
+  RequestUser
 } from "../types/extendedTypes";
 import logError from "../db/audit";
 import httpStatusCode from "../utils/httpStatusCode";
@@ -14,14 +14,14 @@ export const createDepartment = async (req: CustomRequest, res: Response) => {
   try {
     const {
       body,
-      user,
+      user
     }: { body: { org_id: number; name: string }; user?: RequestUser } = req;
     const { name, org_id } = body;
 
-    const orgID = org_id || user?.dept_id!;
+    const orgID = org_id || user?.dept_id;
 
-    const existingOrg = Organisation.query().findById(orgID).where({
-      is_active: true,
+    const existingOrg = Organisation.query().findById(orgID!).where({
+      is_active: true
     });
 
     if (!existingOrg) {
@@ -30,7 +30,7 @@ export const createDepartment = async (req: CustomRequest, res: Response) => {
 
     await Department.query().insert({
       name: name,
-      org_id: orgID,
+      org_id: orgID
     });
 
     return res.sendStatus(httpStatusCode.CREATED);
@@ -41,7 +41,7 @@ export const createDepartment = async (req: CustomRequest, res: Response) => {
       req_url: req.originalUrl,
       req_method: req.method,
       req_host: req.headers["host"],
-      user_id: req.user?.user_id,
+      user_id: req.user?.user_id
     });
 
     return res
@@ -56,7 +56,7 @@ export const getOrgDepartments = async (req: CustomRequest, res: Response) => {
 
     const orgDepartments = await Department.query()
       .where({
-        org_id: Number(params.id) || user?.org_id,
+        org_id: Number(params.id) || user?.org_id
       })
       .withGraphFetched("user as employess")
       .modifyGraph("employees", (builder) => {
@@ -82,7 +82,7 @@ export const getOrgDepartments = async (req: CustomRequest, res: Response) => {
       req_url: req.originalUrl,
       req_method: req.method,
       req_host: req.headers["host"],
-      user_id: req.user?.user_id,
+      user_id: req.user?.user_id
     });
 
     return res
@@ -99,7 +99,7 @@ export const getDepartmentByID = async (req: CustomRequest, res: Response) => {
       .findById(params.id!)
       .where({
         "departments.org_id": user?.org_id,
-        "departments.is_active": true,
+        "departments.is_active": true
       })
       .withGraphFetched("user as employees")
       .modifyGraph("employees", (builder) => {
@@ -129,7 +129,7 @@ export const getDepartmentByID = async (req: CustomRequest, res: Response) => {
       req_url: req.originalUrl,
       req_method: req.method,
       req_host: req.headers["host"],
-      user_id: req.user?.user_id,
+      user_id: req.user?.user_id
     });
 
     return res
@@ -143,7 +143,7 @@ export const updateDepartment = async (req: CustomRequest, res: Response) => {
     const {
       body,
       params,
-      user,
+      user
     }: {
       body: { name: string; org_id: number };
       params: RequestParams;
@@ -159,7 +159,7 @@ export const updateDepartment = async (req: CustomRequest, res: Response) => {
       .leftJoinRelated("organisation")
       .where({
         "organisation.is_active": true,
-        "departments.is_active": true,
+        "departments.is_active": true
       });
 
     if (!existingDept) {
@@ -169,10 +169,10 @@ export const updateDepartment = async (req: CustomRequest, res: Response) => {
     await Department.query()
       .findById(params.id!)
       .where({
-        org_id: orgID,
+        org_id: orgID
       })
       .patch({
-        name: name,
+        name: name
       });
 
     return res.sendStatus(httpStatusCode.CREATED);
@@ -183,7 +183,7 @@ export const updateDepartment = async (req: CustomRequest, res: Response) => {
       req_url: req.originalUrl,
       req_method: req.method,
       req_host: req.headers["host"],
-      user_id: req.user?.user_id,
+      user_id: req.user?.user_id
     });
 
     return res
@@ -201,7 +201,7 @@ export const deleteDepartment = async (req: CustomRequest, res: Response) => {
       .leftJoinRelated("organisation")
       .where({
         "departments.is_active": true,
-        "organisation.is_active": true,
+        "organisation.is_active": true
       });
 
     if (!existingDept) {
@@ -211,10 +211,10 @@ export const deleteDepartment = async (req: CustomRequest, res: Response) => {
     await Department.query()
       .findById(params.id!)
       .where({
-        org_id: user?.org_id,
+        org_id: user?.org_id
       })
       .patch({
-        is_active: false,
+        is_active: false
       });
 
     return res.sendStatus(httpStatusCode.ACCEPTED);
@@ -225,7 +225,7 @@ export const deleteDepartment = async (req: CustomRequest, res: Response) => {
       req_url: req.originalUrl,
       req_method: req.method,
       req_host: req.headers["host"],
-      user_id: req.user?.user_id,
+      user_id: req.user?.user_id
     });
 
     return res

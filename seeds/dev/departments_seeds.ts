@@ -5,12 +5,14 @@ export async function seed(knex: Knex): Promise<void> {
   // Deletes ALL existing entries
   // await knex("departments").del();
 
-  let departments: Array<any> = [];
+  const departments: Array<any> = [];
 
-  for (let i = 0; i < 50; i++) {
+  for (let i = 1; i <= 50; i++) {
     const department = createRandomDepartment();
 
-    departments.push({ ...department, dept_id: i });
+    department["dept_id"] = i;
+
+    departments.push(department);
   }
 
   // Inserts seed entries

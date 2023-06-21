@@ -5,12 +5,14 @@ export async function seed(knex: Knex): Promise<void> {
   // Deletes ALL existing entries
   // await knex("roles").del();
 
-  let roles: Array<any> = [];
+  const roles: Array<any> = [];
 
-  for (let i = 0; i < 50; i++) {
+  for (let i = 1; i <= 50; i++) {
     const role = createRandomRole();
 
-    roles.push({ ...role, role_id: i });
+    role["role_id"] = i;
+
+    roles.push(role);
   }
 
   // Inserts seed entries

@@ -12,11 +12,11 @@ export const login = async (req: Request, res: Response) => {
     const { body }: { body: LoginBody } = req;
 
     const { email, password } = body;
-
+    // console.log("first");
     // TODO APPLY SELECT QUERY
 
     const existingUser = await User.query().findOne({
-      email: email,
+      email: email
     });
     // .select(
     //   "user_id",
@@ -53,7 +53,7 @@ export const login = async (req: Request, res: Response) => {
       module: "login",
       req_url: req.originalUrl,
       req_method: req.method,
-      req_host: req.headers["host"],
+      req_host: req.headers["host"]
     });
     return res
       .status(error.code || httpStatusCode.SERVER_ERROR)
@@ -68,7 +68,7 @@ export const register = async (req: Request, res: Response) => {
     const { email, firstName, lastName, orgID, password } = body;
 
     const existingUser = await User.query().findOne({
-      email: email,
+      email: email
     });
 
     if (existingUser) {
@@ -85,14 +85,14 @@ export const register = async (req: Request, res: Response) => {
       first_name: firstName,
       last_name: lastName,
       org_id: orgID!,
-      password: hashedPassword,
+      password: hashedPassword
     });
 
     const { password: tempPassword, ...data } = newUser;
 
     const accessToken = jwt.sign(
       {
-        user_id: newUser?.$id(),
+        user_id: newUser?.$id()
       },
       process.env.ACCESS_TOKEN_SECRET!,
       {}
@@ -100,7 +100,7 @@ export const register = async (req: Request, res: Response) => {
 
     return res.status(httpStatusCode.CREATED).json({
       data: data,
-      accessToken: accessToken,
+      accessToken: accessToken
     });
   } catch (error: any) {
     await logError({
@@ -108,7 +108,7 @@ export const register = async (req: Request, res: Response) => {
       module: "register",
       req_url: req.originalUrl,
       req_method: req.method,
-      req_host: req.headers["host"],
+      req_host: req.headers["host"]
     });
 
     return res
@@ -127,7 +127,7 @@ export const registerWithOrg = async (req: Request, res: Response) => {
     const { firstName, lastName, email, password } = user;
 
     const existingOrganisation = await Organisation.query().findOne({
-      name: name,
+      name: name
     });
 
     if (existingOrganisation) {
@@ -145,11 +145,11 @@ export const registerWithOrg = async (req: Request, res: Response) => {
         address: address,
         city: city,
         state: state,
-        country: country,
+        country: country
       });
 
       const existingUser = await User.query(trx).findOne({
-        email: email,
+        email: email
       });
 
       if (existingUser) {
@@ -165,7 +165,7 @@ export const registerWithOrg = async (req: Request, res: Response) => {
         last_name: lastName,
         email: email,
         org_id: newOrganisation?.$id(),
-        password: hashedPassword,
+        password: hashedPassword
       });
 
       const { password: tempPassword, ...userData } = newUser;
@@ -176,8 +176,8 @@ export const registerWithOrg = async (req: Request, res: Response) => {
       return res.status(httpStatusCode.CREATED).json({
         data: {
           organisation: organisation,
-          user: userData,
-        },
+          user: userData
+        }
       });
     } catch (error: any) {
       // * ROLLBACKS TRANSATION IF ANY ERROR
@@ -188,7 +188,7 @@ export const registerWithOrg = async (req: Request, res: Response) => {
         module: "registerWithOrg",
         req_url: req.originalUrl,
         req_method: req.method,
-        req_host: req.headers["host"],
+        req_host: req.headers["host"]
       });
 
       return res
@@ -201,7 +201,7 @@ export const registerWithOrg = async (req: Request, res: Response) => {
       module: "registerWithOrg",
       req_url: req.originalUrl,
       req_method: req.method,
-      req_host: req.headers["host"],
+      req_host: req.headers["host"]
     });
     return res
       .status(error.code || httpStatusCode.SERVER_ERROR)

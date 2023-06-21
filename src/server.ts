@@ -27,7 +27,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.get("/server", (_req: Request, res: Response) =>
-  res.status(200).json({ "message": `Server listening at PORT ${PORT}!` })
+  res.status(200).json({ message: `Server listening at PORT ${PORT}!` })
 );
 
 app.use("/auth", authRouter);
@@ -42,7 +42,8 @@ app.use("/departments", departmentRouter);
 app.use("/organisations", organisationRouter);
 
 app.use("*", (_req: Request, res: Response) => {
-  res.status(400).json({ "message": "Invalid request URL!" });
+  res.status(400).json({ message: "Invalid request URL!" });
 });
 
+// eslint-disable-next-line no-console
 app.listen(PORT, () => console.log(`Server spinning on PORT : ${PORT}`));

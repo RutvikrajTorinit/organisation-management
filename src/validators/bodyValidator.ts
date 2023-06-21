@@ -53,7 +53,7 @@ export const registerBodyValidator = (
     if (!passwordRegex.test(password)) {
       return res.status(httpStatusCode.BAD_REQUEST).json({
         error:
-          "Password must be at-least 8 characters long and must contain 1 capital letter, 1 small letter, 1 number and 1 special character!",
+          "Password must be at-least 8 characters long and must contain 1 capital letter, 1 small letter, 1 number and 1 special character!"
       });
     }
 
@@ -160,7 +160,7 @@ export const registerWithOrgBodyValidator = (
     if (!passwordRegex.test(password)) {
       return res.status(httpStatusCode.BAD_REQUEST).json({
         error:
-          "Password must be at-least 8 characters long and must contain 1 capital letter, 1 small letter, 1 number and 1 special character!",
+          "Password must be at-least 8 characters long and must contain 1 capital letter, 1 small letter, 1 number and 1 special character!"
       });
     }
 
