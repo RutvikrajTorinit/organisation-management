@@ -2,6 +2,7 @@ import { Model } from "objection";
 import Ticket from "./ticket";
 import User from "./user";
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const knex = require("../../knex");
 
 Model.knex(knex);
@@ -37,8 +38,8 @@ class Comment extends Model {
         cmt_id: { type: "integer" },
         user_id: { type: "integer" },
         ticket_id: { type: "integer" },
-        message: { type: "string", minLength: 2 },
-      },
+        message: { type: "string", minLength: 2 }
+      }
     };
   }
 
@@ -49,17 +50,17 @@ class Comment extends Model {
         modelClass: Ticket,
         join: {
           from: "comments.ticket_id",
-          to: "tickets.ticket_id",
-        },
+          to: "tickets.ticket_id"
+        }
       },
       user: {
         relation: Model.BelongsToOneRelation,
         modelClass: User,
         join: {
           from: "comments.user_id",
-          to: "users.user_id",
-        },
-      },
+          to: "users.user_id"
+        }
+      }
     };
   }
 }

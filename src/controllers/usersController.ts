@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 import { Response } from "express";
 import User from "../models/user";
 import httpStatusCode from "../utils/httpStatusCode";
@@ -15,7 +16,7 @@ export const getUsers = async (req: CustomRequest, res: Response) => {
       sort_by = "created_at",
       sort_order = "asc",
       search,
-      search_field,
+      search_field
     } = query;
 
     const getAllUsersQuery = User.query()
@@ -29,7 +30,7 @@ export const getUsers = async (req: CustomRequest, res: Response) => {
       search: search!,
       search_field: search_field!,
       sort_by: sort_by,
-      sort_order: sort_order,
+      sort_order: sort_order
     });
 
     const users: any = await newQuery.select(
@@ -47,7 +48,7 @@ export const getUsers = async (req: CustomRequest, res: Response) => {
 
       return res.status(httpStatusCode.SUCCESS).json({
         data: results,
-        total: total,
+        total: total
       });
     }
 
@@ -61,7 +62,7 @@ export const getUsers = async (req: CustomRequest, res: Response) => {
       req_url: req.originalUrl,
       req_method: req.method,
       req_host: req.headers["host"],
-      user_id: req.user?.user_id,
+      user_id: req.user?.user_id
     });
 
     return res
@@ -103,7 +104,7 @@ export const getUser = async (req: CustomRequest, res: Response) => {
       req_url: req.originalUrl,
       req_method: req.method,
       req_host: req.headers["host"],
-      user_id: req.user?.user_id,
+      user_id: req.user?.user_id
     });
 
     return res
@@ -116,7 +117,7 @@ export const updateUser = async (req: CustomRequest, res: Response) => {
   try {
     const {
       params,
-      body,
+      body
     }: {
       params: RequestParams;
       body: UserUpdateBody;
@@ -125,7 +126,7 @@ export const updateUser = async (req: CustomRequest, res: Response) => {
     const { firstName, lastName, email, orgID } = body;
 
     const otherUser = await User.query().findOne({
-      email: email,
+      email: email
     });
 
     if (otherUser) {
@@ -159,7 +160,7 @@ export const updateUser = async (req: CustomRequest, res: Response) => {
         first_name: firstName,
         last_name: lastName,
         email: email,
-        org_id: orgID,
+        org_id: orgID
       })
       .findById(params?.id!);
 
@@ -171,7 +172,7 @@ export const updateUser = async (req: CustomRequest, res: Response) => {
       req_url: req.originalUrl,
       req_method: req.method,
       req_host: req.headers["host"],
-      user_id: req.user?.user_id,
+      user_id: req.user?.user_id
     });
 
     return res
@@ -185,7 +186,7 @@ export const deleteUser = async (req: CustomRequest, res: Response) => {
     const { params }: { params: RequestParams } = req;
 
     const existingUser = await User.query().findById(params.id!).where({
-      is_active: true,
+      is_active: true
     });
 
     if (!existingUser?.org_id) {
@@ -197,7 +198,7 @@ export const deleteUser = async (req: CustomRequest, res: Response) => {
     }
 
     await User.query().findById(params?.id!).patch({
-      is_active: false,
+      is_active: false
     });
 
     return res.sendStatus(httpStatusCode.NO_CONTENT);
@@ -208,7 +209,7 @@ export const deleteUser = async (req: CustomRequest, res: Response) => {
       req_url: req.originalUrl,
       req_method: req.method,
       req_host: req.headers["host"],
-      user_id: req.user?.user_id,
+      user_id: req.user?.user_id
     });
 
     return res
@@ -226,7 +227,7 @@ export const getOrgUsers = async (req: CustomRequest, res: Response) => {
       sort_by = "created_at",
       sort_order = "asc",
       search,
-      search_field,
+      search_field
     } = query;
 
     const getAllUsersQuery = User.query()
@@ -243,7 +244,7 @@ export const getOrgUsers = async (req: CustomRequest, res: Response) => {
       search: search!,
       search_field: search_field!,
       sort_by: sort_by,
-      sort_order: sort_order,
+      sort_order: sort_order
     });
 
     const users: any = await newQuery.select(
@@ -264,7 +265,7 @@ export const getOrgUsers = async (req: CustomRequest, res: Response) => {
 
       return res.status(httpStatusCode.SUCCESS).json({
         data: results,
-        total: total,
+        total: total
       });
     }
 
@@ -278,7 +279,7 @@ export const getOrgUsers = async (req: CustomRequest, res: Response) => {
       req_url: req.originalUrl,
       req_method: req.method,
       req_host: req.headers["host"],
-      user_id: req.user?.user_id,
+      user_id: req.user?.user_id
     });
 
     return res

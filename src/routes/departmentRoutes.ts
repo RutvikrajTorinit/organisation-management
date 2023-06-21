@@ -4,7 +4,7 @@ import {
   deleteDepartment,
   getDepartmentByID,
   getOrgDepartments,
-  updateDepartment,
+  updateDepartment
 } from "../controllers/departmentController";
 import { isAdmin, isOrgAdmin, isOrgUser } from "../middlewares/verifyRole";
 

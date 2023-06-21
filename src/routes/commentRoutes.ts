@@ -1,7 +1,7 @@
 import { Router } from "express";
 import {
   createComment,
-  getTicketComments,
+  getTicketComments
 } from "../controllers/commentController";
 
 const router = Router();

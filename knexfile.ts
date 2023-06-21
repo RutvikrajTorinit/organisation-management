@@ -6,22 +6,22 @@ dotenv.config();
 
 const config: { [key: string]: Knex.Config } = {
   development: {
-    client: "mysql2",
+    client: "postgresql",
     connection: {
       host: process.env.DB_HOST,
       port: Number(process.env.DB_PORT),
       user: process.env.DB_USER,
       password: process.env.DB_PASSWORD,
-      database: process.env.DB_NAME,
+      database: process.env.DB_NAME
     },
     migrations: {
       directory: "./migrations/dev",
-      extension: "ts",
+      extension: "ts"
     },
     seeds: {
       directory: "./seeds/dev",
-      extension: "ts",
-    },
+      extension: "ts"
+    }
   },
 
   staging: {
@@ -29,15 +29,15 @@ const config: { [key: string]: Knex.Config } = {
     connection: {
       database: "my_db",
       user: "username",
-      password: "password",
+      password: "password"
     },
     pool: {
       min: 2,
-      max: 10,
+      max: 10
     },
     migrations: {
-      tableName: "knex_migrations",
-    },
+      tableName: "knex_migrations"
+    }
   },
 
   production: {
@@ -45,17 +45,16 @@ const config: { [key: string]: Knex.Config } = {
     connection: {
       database: "my_db",
       user: "username",
-      password: "password",
+      password: "password"
     },
     pool: {
       min: 2,
-      max: 10,
+      max: 10
     },
     migrations: {
-      tableName: "knex_migrations",
-    },
-  },
+      tableName: "knex_migrations"
+    }
+  }
 };
 
 module.exports = config;
-// module.exports = knex(config.development);

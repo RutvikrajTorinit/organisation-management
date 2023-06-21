@@ -7,12 +7,12 @@ import {
   getOrganisation,
   getOrganisations,
   getOrgsWitheEmployee,
-  updateOrganisation,
+  updateOrganisation
 } from "../controllers/organisationController";
 import {
   createOrgBodyValidator,
   registerWithOrgBodyValidator,
-  updateOrgBodyValidator,
+  updateOrgBodyValidator
 } from "../validators/bodyValidator";
 import { isAdmin, isOrgAdmin, isOrgUser } from "../middlewares/verifyRole";
 

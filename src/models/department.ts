@@ -2,6 +2,7 @@ import { Model } from "objection";
 import User from "./user";
 import Organisation from "./organisation";
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const knex = require("../../knex");
 
 Model.knex(knex);
@@ -38,8 +39,8 @@ class Department extends Model {
         dept_id: { type: "integer" },
         name: { type: "string" },
         org_id: { type: "integer" },
-        is_active: { type: "boolean" },
-      },
+        is_active: { type: "boolean" }
+      }
     };
   }
 
@@ -50,17 +51,17 @@ class Department extends Model {
         modelClass: User,
         join: {
           from: "departments.dept_id",
-          to: "users.dept_id",
-        },
+          to: "users.dept_id"
+        }
       },
       organisation: {
         relation: Model.BelongsToOneRelation,
         modelClass: Organisation,
         join: {
           from: "departments.org_id",
-          to: "organisations.org_id",
-        },
-      },
+          to: "organisations.org_id"
+        }
+      }
     };
   }
 }

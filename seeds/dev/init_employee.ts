@@ -5,16 +5,15 @@ export async function seed(knex: Knex): Promise<void> {
   // Deletes ALL existing entries
   //   await knex("users").del();
 
-  let users: Array<any> = [];
+  const users: Array<any> = [];
 
   for (let i = 1; i <= 100; i++) {
     const user = createRandomUser();
 
-    users.push({
-      ...user,
-      user_id: i,
-      email: `${user.first_name}.${user.last_name}${i}@gmail.com`,
-    });
+    user["user_id"] = i;
+    user["email"] = `${user.first_name}.${user.last_name}${i}@gmail.com`;
+
+    users.push(user);
   }
 
   // Inserts seed entries

@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 import { Response } from "express";
 import {
   CustomRequest,
   ReqQuery,
   RequestParams,
-  RequestUser,
+  RequestUser
 } from "../types/extendedTypes";
 import logError from "../db/audit";
 import httpStatusCode from "../utils/httpStatusCode";
@@ -30,7 +31,7 @@ export const createTicket = async (req: CustomRequest, res: Response) => {
       description: description,
       user_id: user?.user_id!,
       org_id: user?.org_id!,
-      dept_id: dept_id,
+      dept_id: dept_id
     });
 
     return res.status(httpStatusCode.CREATED).json({ data: ticket });
@@ -41,7 +42,7 @@ export const createTicket = async (req: CustomRequest, res: Response) => {
       req_url: req.originalUrl,
       req_method: req.method,
       req_host: req.headers["host"],
-      user_id: req.user?.user_id,
+      user_id: req.user?.user_id
     });
 
     return res
@@ -60,7 +61,7 @@ export const getAllTickets = async (req: CustomRequest, res: Response) => {
       sort_by = "created_at",
       sort_order = "asc",
       search,
-      search_field,
+      search_field
     } = query;
 
     const existingDept = await Department.query().findById(user?.dept_id!);
@@ -72,7 +73,7 @@ export const getAllTickets = async (req: CustomRequest, res: Response) => {
 
     const getAllTicketsQuery = Ticket.query()
       .where({
-        "tickets.dept_id": user?.dept_id,
+        "tickets.dept_id": user?.dept_id
       })
       .whereIn("status", [1, 3, 4])
       .join("ticket_statuses", "tickets.status", "ticket_statuses.status_id")
@@ -114,7 +115,7 @@ export const getAllTickets = async (req: CustomRequest, res: Response) => {
       search: search!,
       search_field: search_field!,
       sort_by: sort_by!,
-      sort_order: sort_order!,
+      sort_order: sort_order!
     });
 
     const tickets = await newQuery.select(
@@ -137,7 +138,7 @@ export const getAllTickets = async (req: CustomRequest, res: Response) => {
       req_url: req.originalUrl,
       req_method: req.method,
       req_host: req.headers["host"],
-      user_id: req.user?.user_id,
+      user_id: req.user?.user_id
     });
 
     return res
@@ -156,13 +157,13 @@ export const getUserTickets = async (req: CustomRequest, res: Response) => {
       sort_by = "created_at",
       sort_order = "asc",
       search,
-      search_field,
+      search_field
     } = query;
 
     const getUserTicketsQuery = Ticket.query()
       .where({
         "users.user_id": user?.user_id,
-        "users.is_active": true,
+        "users.is_active": true
       })
       .leftJoin(
         "ticket_statuses",
@@ -193,7 +194,7 @@ export const getUserTickets = async (req: CustomRequest, res: Response) => {
       search: search!,
       search_field: search_field!,
       sort_by: sort_by!,
-      sort_order: sort_order!,
+      sort_order: sort_order!
     });
 
     const tickets = await newQuery.select(
@@ -221,7 +222,7 @@ export const getUserTickets = async (req: CustomRequest, res: Response) => {
       req_url: req.originalUrl,
       req_method: req.method,
       req_host: req.headers["host"],
-      user_id: req.user?.user_id,
+      user_id: req.user?.user_id
     });
 
     return res
@@ -234,7 +235,7 @@ export const changeTicketStatus = async (req: CustomRequest, res: Response) => {
   try {
     const {
       body,
-      params,
+      params
     }: { body: ChangeTicketStatusBody; params: RequestParams } = req;
 
     const existingTicket = await Ticket.query()
@@ -255,7 +256,7 @@ export const changeTicketStatus = async (req: CustomRequest, res: Response) => {
       req_url: req.originalUrl,
       req_method: req.method,
       req_host: req.headers["host"],
-      user_id: req.user?.user_id,
+      user_id: req.user?.user_id
     });
 
     return res
@@ -271,11 +272,11 @@ export const changeTicketDepartment = async (
   try {
     const {
       body,
-      params,
+      params
     }: { body: { dept_id: number }; params: RequestParams } = req;
 
     await Ticket.query().findById(params.id!).patch({
-      dept_id: body.dept_id,
+      dept_id: body.dept_id
     });
 
     return res.sendStatus(httpStatusCode.CREATED);
@@ -286,7 +287,7 @@ export const changeTicketDepartment = async (
       req_url: req.originalUrl,
       req_method: req.method,
       req_host: req.headers["host"],
-      user_id: req.user?.user_id,
+      user_id: req.user?.user_id
     });
 
     return res

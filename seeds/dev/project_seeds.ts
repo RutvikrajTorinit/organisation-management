@@ -5,12 +5,14 @@ export async function seed(knex: Knex): Promise<void> {
   // Deletes ALL existing entries
   await knex("projects").del();
 
-  let projects: Array<any> = [];
+  const projects: Array<any> = [];
 
-  for (let i = 0; i < 50; i++) {
+  for (let i = 1; i <= 50; i++) {
     const proj = createRandomProject();
 
-    projects.push({ ...proj, proj_id: i });
+    proj["proj_id"] = i;
+
+    projects.push(proj);
   }
 
   // Inserts seed entries

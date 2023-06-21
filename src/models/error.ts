@@ -1,4 +1,5 @@
 import { Model } from "objection";
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const knex = require("../../knex");
 
 Model.knex(knex);
@@ -34,8 +35,8 @@ class Error extends Model {
         request_url: { type: "string" },
         req_method: { type: "string" },
         req_host: { type: "string" },
-        user_id: { type: "integer" },
-      },
+        user_id: { type: "integer" }
+      }
     };
   }
 }

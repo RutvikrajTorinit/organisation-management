@@ -2,7 +2,7 @@ import { Response } from "express";
 import {
   CustomRequest,
   RequestParams,
-  RequestUser,
+  RequestUser
 } from "../types/extendedTypes";
 import logError from "../db/audit";
 import httpStatusCode from "../utils/httpStatusCode";
@@ -14,7 +14,7 @@ export const createComment = async (req: CustomRequest, res: Response) => {
   try {
     const {
       body,
-      user,
+      user
     }: { body: { message: string; ticketID: number }; user?: RequestUser } =
       req;
 
@@ -29,7 +29,7 @@ export const createComment = async (req: CustomRequest, res: Response) => {
     await Comment.query().insert({
       user_id: user?.user_id,
       message: message,
-      ticket_id: ticketID,
+      ticket_id: ticketID
     });
 
     return res.sendStatus(httpStatusCode.CREATED);
@@ -39,7 +39,7 @@ export const createComment = async (req: CustomRequest, res: Response) => {
       module: "login",
       req_url: req.originalUrl,
       req_method: req.method,
-      req_host: req.headers["host"],
+      req_host: req.headers["host"]
     });
     return res
       .status(error.code || httpStatusCode.SERVER_ERROR)
@@ -59,7 +59,7 @@ export const getTicketComments = async (req: CustomRequest, res: Response) => {
 
     const ticketComments = await Comment.query()
       .where({
-        ticket_id: params.id,
+        ticket_id: params.id
       })
       .leftJoinRelated("user")
       .select(
@@ -74,7 +74,7 @@ export const getTicketComments = async (req: CustomRequest, res: Response) => {
       module: "login",
       req_url: req.originalUrl,
       req_method: req.method,
-      req_host: req.headers["host"],
+      req_host: req.headers["host"]
     });
     return res
       .status(error.code || httpStatusCode.SERVER_ERROR)

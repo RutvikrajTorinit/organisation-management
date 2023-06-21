@@ -1,6 +1,8 @@
 import { Model } from "objection";
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const knex = require("../../knex");
+
 import Organisation from "./organisation";
 import Role from "./role";
 import Project from "./project";
@@ -52,8 +54,8 @@ class User extends Model {
         org_id: { type: "integer" },
         role_id: { type: "integer" },
         dept_id: { type: "integer" },
-        is_active: { type: "boolean" },
-      },
+        is_active: { type: "boolean" }
+      }
     };
   }
 
@@ -64,41 +66,41 @@ class User extends Model {
         modelClass: Organisation,
         join: {
           from: "users.org_id",
-          to: "organisations.org_id",
-        },
+          to: "organisations.org_id"
+        }
       },
       role: {
         relation: Model.BelongsToOneRelation,
         modelClass: Role,
         join: {
           from: "users.role_id",
-          to: "roles.role_id",
-        },
+          to: "roles.role_id"
+        }
       },
       project: {
         relation: Model.BelongsToOneRelation,
         modelClass: Project,
         join: {
           from: "users.proj_id",
-          to: "projects.proj_id",
-        },
+          to: "projects.proj_id"
+        }
       },
       department: {
         relation: Model.BelongsToOneRelation,
         modelClass: Department,
         join: {
           from: "users.dept_id",
-          to: "departments.dept_id",
-        },
+          to: "departments.dept_id"
+        }
       },
       ticket: {
         relation: Model.BelongsToOneRelation,
         modelClass: Ticket,
         join: {
           from: "users.user_id",
-          to: "tickets.user_id",
-        },
-      },
+          to: "tickets.user_id"
+        }
+      }
     };
   }
 }
