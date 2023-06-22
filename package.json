@@ -7,7 +7,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' --files src/server.ts",
     "prepare": "husky install",
-    "eslint": "eslint . --ext ts"
+    "eslint": "eslint . --ext ts",
+    "build": "tsc",
+    "start": "node dist/server.js"
   },
   "keywords": [],
   "author": "",
