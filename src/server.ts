@@ -26,7 +26,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(express.json());
 
-app.get("/server", (_req: Request, res: Response) =>
+app.get("/", (_req: Request, res: Response) =>
   res.status(200).json({ message: `Server listening at PORT ${PORT}!` })
 );
 
