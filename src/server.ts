@@ -47,3 +47,5 @@ app.use("*", (_req: Request, res: Response) => {
 
 // eslint-disable-next-line no-console
 app.listen(PORT, () => console.log(`Server spinning on PORT : ${PORT}`));
+
+module.exports = app;
